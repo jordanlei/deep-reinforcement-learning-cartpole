@@ -1,6 +1,6 @@
 # Deep Reinforcement Learning with CartPole in Pytorch
 ## About
-This repository explores 3 different Reinforcement Learning Algorithms using Deep Learning in Pytorch. The methods used here include Deep Q Learning (DQN), Policy Gradient Learning (REINFORCE), and Advantage Actor-Critic (A2C). 
+This repository explores 3 different Reinforcement Learning Algorithms using Deep Learning in Pytorch. The methods used here include Deep Q Learning (DQN), Policy Gradient Learning (REINFORCE), and Advantage Actor-Critic (A2C). The goal of the agent is to balance a pole on a cart for the maximum amount of time possible without it falling over. The task and documentation can be found at OpenAI Gym: https://gym.openai.com/envs/CartPole-v0/ 
 
 <p align="center">
   <img src="saved_dqn_cartpole/movie.gif" width="280">
