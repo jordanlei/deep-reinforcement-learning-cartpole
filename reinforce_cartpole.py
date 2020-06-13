@@ -1,3 +1,8 @@
+'''
+Jordan Lei, 2020. Some code is based on the following sources:
+   https://medium.com/@ts1829/policy-gradient-reinforcement-learning-in-pytorch-df1383ea0baf
+'''
+
 import gym
 import math
 import random
@@ -51,7 +56,7 @@ device =  torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 #policy gradient network
 class Policy(nn.Module): 
-  def __init__(self, in_size, out_size): 
+  def __init__(self, in_size, out_size):
     super(Policy, self).__init__()
     self.in_size = in_size
     self.out_size = out_size
@@ -67,10 +72,14 @@ class Policy(nn.Module):
     self.reward_history = []
     self.loss_history = []
 
-  def forward(self, x): 
+  def forward(self, x):
+    # convert state to tensor
+
+    x = Variable(torch.from_numpy(x).float().unsqueeze(0)).to(device) 
     x = self.l1(x)
     x = F.relu(self.dropout(x))
     x = self.l2(x)
+    #softmax outputs a probability distribution over action space
     return self.softmax(x)
 
 class Runner():
@@ -81,13 +90,10 @@ class Runner():
     self.writer = SummaryWriter(logs)
     self.logs = logs
   
-  def env_step(self, action):
-    state, reward, done, log = env.step(action)
-    return torch.FloatTensor([state]).to(device), torch.FloatTensor([reward]).to(device), done, log
 
   def select_action(self, state):
     #convert state to tensor
-    probs = self.net(torch.FloatTensor([state]).to(device))
+    probs = self.net(state)
     c = Categorical(probs)
     action = c.sample()
 
@@ -108,7 +114,9 @@ class Runner():
       R = r + self.gamma * R
       rewards.insert(0, R)
     
+    #at this point, rewards is a proxy for Q(s, a)
     rewards = torch.FloatTensor(rewards)
+    #normalize to reduce variance
     rewards = (rewards - rewards.mean()) / (rewards.std() + np.finfo(np.float32).eps)
 
     #loss = - sum_t log(\pi(a|s)) * v_t
