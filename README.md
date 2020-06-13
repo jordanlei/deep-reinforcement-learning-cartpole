@@ -31,10 +31,42 @@ The Advantage Actor-Critic (A2C) consists of 2 modules, an actor and a critic. T
 </p>
 
 
-## Layout
+## Code
+### Layout
 Files are named in the format name-of-model.py and corresponding folders are name-of-model/, containing plots, models, and videos of trained agents performing the CartPole task.
 
-## Run
+### Run
+The code is designed to be run easily and effectively for a wide variety of use cases. Knowing the flags is helpful in determining the appropriate command to run: 
+* **--device**: cuda device, if one exists. Default 0
+* **--verbose**: printing preferences, set to 1. Default 1
+* **--load**: set to True if loading a model. If this is set to True, the model specified in directory flag --model is used. Default False
+* **--save**: set to True if saving a model. Default False
+* **--plot**: set to True if plotting the learning curves after training. Default True. 
+* **--model**: the directory of the model to load, if --load Flag is set to True
+* **--runtype**: choose from ('train_run', 'train', 'run'), corresponding with both training and running after training, training only, or running the model (consists of saving a video of the run). For training on a server without GLX support or where env.render() is unavailable, use 'train' only. Default 'train_run'
+* **--lr**: the learning rate of the model. Defaults are different for different models.
+* **--episodes**: the number of episodes for which the model will be trained
+* **--gamma**: the discount factor
+
+### Examples
+Below are examples for how to run the code in a variety of use cases. Here, I'm using dqn_cartpole.py but the same formatting applies to the other two models as well. 
+
+**Simple Train and Run (save output model, 500 episodes):** 
+
+    python dqn_cartpole.py --save=True --episodes=500
+
+**Train Only - useful for server-side training, to be rendered on a screen (save output model, 500 episodes):**
+
+    python dqn_cartpole.py --runtype=train --episodes=500
+    
+**Load Existing Model (save output model, 500 episodes):**
+    
+    python dqn_cartpole.py --load=True --model= path/to/model --save=True --episodes=500
+
+**Load Existing Model and Run Only:** 
+
+    python dqn_cartpole.py --runtype=run --load=True --model = path/to/model --save=False
+
 
 ## References
 Refer below for some fantastic tutorials on the topic, without which this code would not be possible: 
