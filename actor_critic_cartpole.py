@@ -1,6 +1,6 @@
 '''
 Jordan Lei, 2020. Some code is based on the following sources:
-   https://medium.com/@ts1829/policy-gradient-reinforcement-learning-in-pytorch-df1383ea0baf
+   https://towardsdatascience.com/understanding-actor-critic-methods-931b97b6df3f
 '''
 
 import gym
@@ -218,7 +218,7 @@ class Runner():
       self.plots["Mean Reward"].append(np.mean(smoothed_reward))
 
       if episode % 20 == 0: 
-        print("Episode {} \t Final Reward {:.2f} \t Average Reward: {:.2f}".format(episode, rewards, np.mean(smoothed_reward)))
+        print("\tEpisode {} \t Final Reward {:.2f} \t Average Reward: {:.2f}".format(episode, rewards, np.mean(smoothed_reward)))
 
   def run(self):
     sns.set_style("dark")
@@ -244,7 +244,7 @@ class Runner():
     print("\tTotal Reward: ", rewards)
     env.close()
     print("\tSaving Animation ...")
-    ani = animation.ArtistAnimation(fig, ims, interval=50, blit=True,
+    ani = animation.ArtistAnimation(fig, ims, interval=20, blit=True,
                                     repeat_delay=1000)
     ani.save('%s-movie.avi'%self.logs, dpi = 300)
     
